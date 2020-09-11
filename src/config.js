@@ -6,6 +6,6 @@ module.exports = global.config = {
         }
         // rest of your translation object
     },
-    apiUrl: 'http://127.0.0.1:8000/'
+    apiUrl: 'http://192.168.0.251:1000/'
     // other global config variables you wish
 };

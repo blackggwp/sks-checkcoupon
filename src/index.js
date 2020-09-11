@@ -5,7 +5,6 @@ import { Provider } from 'react-redux'
 import { CookiesProvider } from 'react-cookie';
 
 import App from './App'
-// import Test from './components/Test'
 import rootReducer from './slices'
 
 import './index.css'
