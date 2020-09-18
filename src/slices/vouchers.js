@@ -40,12 +40,12 @@ const vouchersSlice = createSlice({
   },
 })
 
-export const { 
+export const {
   fetchCol,
   fetchColSuccess,
   fetchColFailure,
-  fetchVoucher, 
-  fetchVoucherSuccess, 
+  fetchVoucher,
+  fetchVoucherSuccess,
   fetchVoucherFailure } = vouchersSlice.actions
 export const vouchersSelector = state => state.vouchers
 export default vouchersSlice.reducer
@@ -63,13 +63,18 @@ export function fetchCols() {
     }
   }
 }
-export function fetchVouchers() {
+export function fetchVouchers(query) {
   return async dispatch => {
     dispatch(fetchVoucher())
 
     try {
-      const response = await Axios(`${config.apiUrl}coupons`)
-      // console.log(response)
+      // const response = await Axios(`${config.apiUrl}coupons/${str}`)
+      const response = await Axios.get(`${config.apiUrl}coupons/query`, {
+        params: {
+          query
+        }
+      });
+      console.log(response)
       dispatch(fetchVoucherSuccess(response.data))
     } catch (error) {
       dispatch(fetchVoucherFailure())

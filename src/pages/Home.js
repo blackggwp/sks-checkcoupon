@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Content } from "../components/layout/Content";
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchCols, vouchersSelector } from '../slices/vouchers'
+import { fetchCols, fetchVouchers, vouchersSelector } from '../slices/vouchers'
 
 import 'devextreme/dist/css/dx.common.css';
 import 'devextreme/dist/css/dx.light.css';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
-import { Paper } from "@material-ui/core";
-import SearchBox from "../components/SearchBox";
+import { Paper, TextField } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,21 +22,27 @@ export default function Home() {
   const dispatch = useDispatch();
   const classes = useStyles();
   const { cols, loading, hasErrors } = useSelector(vouchersSelector)
-  const [formVal, setFormVal] = useState('')
+  const [formVal, setFormVal] = useState({})
 
   useEffect(() => {
     dispatch(fetchCols())
   }, [dispatch])
 
-  const handleChange = (event) => {
-    console.log('hhhh')
-    // setFormVal({value: event.target.value});
-  }
   const renderSearchBox = () => {
     if (loading) return <p>Loading SearchBox...</p>
     if (hasErrors) return <p>Unable to display SearchBox.</p>
 
-    return cols.map((col, idx) => <SearchBox key={idx} label={col} value={formVal} onChange={() => handleChange()} excerpt />)
+    return cols.map((col, idx) =>
+      <TextField key={idx} label={col}
+        name={col} onChange={(e) => handleChange(e)} />)
+  }
+
+  const handleChange = (e) => {
+    setFormVal({ ...formVal, [e.target.name]: e.target.value });
+  }
+  const handleSubmit = () => {
+    console.log(formVal)
+    dispatch(fetchVouchers(formVal))
   }
 
   return (
@@ -48,11 +53,11 @@ export default function Home() {
             {renderSearchBox()}
           </div>
           <Button
+            onClick={handleSubmit}
             variant="contained" color="primary">
-          Submit
+            Submit
         </Button>
         </form>
-        
       </Paper>)
       }
     </Content>
