@@ -25,7 +25,7 @@ const vouchersSlice = createSlice({
       state.loading = false
       state.hasErrors = true
     },
-    fetchVoucher: state => {
+    fetchingVoucher: state => {
       state.loading = true
     },
     fetchVoucherSuccess: (state, { payload }) => {
@@ -44,7 +44,7 @@ export const {
   fetchCol,
   fetchColSuccess,
   fetchColFailure,
-  fetchVoucher,
+  fetchingVoucher,
   fetchVoucherSuccess,
   fetchVoucherFailure } = vouchersSlice.actions
 export const vouchersSelector = state => state.vouchers
@@ -64,15 +64,21 @@ export function fetchCols() {
   }
 }
 export function fetchVouchers(query) {
+  if (query === {}) {
+    return async dispatch => {
+      dispatch(fetchVoucherFailure())
+    }
+  }
+  for (const key in query) {
+    (query[key] === '') && delete query[key]
+  }
+  console.log(query)
   return async dispatch => {
-    dispatch(fetchVoucher())
+    dispatch(fetchingVoucher())
 
     try {
-      // const response = await Axios(`${config.apiUrl}coupons/${str}`)
       const response = await Axios.get(`${config.apiUrl}coupons/query`, {
-        params: {
-          query
-        }
+        params: query
       });
       console.log(response)
       dispatch(fetchVoucherSuccess(response.data))

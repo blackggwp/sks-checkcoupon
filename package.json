@@ -4,7 +4,7 @@
   "description": "",
   "keywords": [],
   "main": "src/index.js",
-  "homepage": "http://223.27.210.225/test/checkcoupon/",
+  "homepage": "http://192.168.0.251/ecoupon/backend2/",
   "dependencies": {
     "@material-ui/core": "^4.9.14",
     "@material-ui/icons": "^4.9.1",
@@ -26,7 +26,8 @@
     "reactstrap": "^8.4.1",
     "recharts": "^1.8.5",
     "redux": "4.0.5",
-    "styled-components": "^5.1.0"
+    "styled-components": "^5.1.0",
+    "tedious": "^9.2.1"
   },
   "devDependencies": {
     "typescript": "3.3.3"
