@@ -9,18 +9,18 @@ import DataGrid, {
   Export,
   Selection,
   FilterRow,
-  Column,
   ColumnChooser,
   ColumnFixing,
 } from 'devextreme-react/data-grid';
 
 export default function VoucherTable() {
-  const { vouchers } = useSelector(vouchersSelector)
+  const { vouchers, cols } = useSelector(vouchersSelector)
 
   return (
     <div style={{ paddingTop: '0.5rem' }}>
       <DataGrid
         dataSource={vouchers.recordset}
+        defaultColumns={cols}
         allowColumnReordering={true}
         allowColumnResizing={true}
         showBorders={true}
@@ -32,7 +32,7 @@ export default function VoucherTable() {
         <GroupPanel visible={true} />
         <SearchPanel visible={true} />
         <Grouping autoExpandAll={false} />
-        <Paging defaultPageSize={10} />
+        <Paging defaultPageSize={20} />
         <Export enabled={true} allowExportSelectedData={true} />
 
       </DataGrid>

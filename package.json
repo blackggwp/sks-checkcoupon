@@ -4,7 +4,7 @@
   "description": "",
   "keywords": [],
   "main": "src/index.js",
-  "homepage": "http://192.168.0.251/ecoupon/backend2/",
+  "homepage": "http://192.168.0.251/ecoupon/portal",
   "dependencies": {
     "@material-ui/core": "^4.9.14",
     "@material-ui/icons": "^4.9.1",

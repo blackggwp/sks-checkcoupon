@@ -56,8 +56,12 @@ export function fetchCols() {
 
     try {
       const response = await Axios(`${config.apiUrl}coupons/cols`)
-      // console.log(response)
-      dispatch(fetchColSuccess(response.data))
+      const colsRaw = response.data.recordsets[0]
+      var filteredItems = colsRaw.filter(function (item) {
+        return item.isbinding !== '1'
+      });
+      const col = filteredItems.map(item => item.ColName)
+      dispatch(fetchColSuccess(col))
     } catch (error) {
       dispatch(fetchColFailure())
     }

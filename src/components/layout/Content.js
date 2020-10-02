@@ -2,7 +2,7 @@ import React from 'react'
 // import styled from "styled-components";
 // import { Container } from "reactstrap";
 import 'antd/dist/antd.css';
-import { Layout, Menu } from 'antd';
+import { Layout } from 'antd';
 
 
 export function Content(props) {

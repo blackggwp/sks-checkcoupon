@@ -6,18 +6,19 @@ import {
   Redirect,
 } from 'react-router-dom'
 import MyErrorBoundary from './components/MyErrorBoundary';
-import PrivateRoute from './helpers/PrivateRoute'
+// import PrivateRoute from './helpers/PrivateRoute'
 
 const Home = lazy(() => import('./pages/Home'));
 
 const App = () => {
 
   return (
-    <Router>
+    <Router basename="/ecoupon/portal">
       <MyErrorBoundary>
         <Suspense fallback={<div>Loading...</div>}>
           <Switch>
-            <PrivateRoute exact path="/" component={Home} />
+            {/* <PrivateRoute exact path="/" component={Home} /> */}
+            <Route exact path="/" component={Home} />
             <Redirect to="/" />
           </Switch>
         </Suspense>
