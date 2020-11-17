@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+import Axios from "axios";
 import config from "../config";
-import { callAPI } from "../helpers";
 
 export const initialState = {
   loading: false,
@@ -18,7 +18,7 @@ const usersSlice = createSlice({
     postingData: (state) => {
       state.loading = true;
     },
-    postRegisSuccess: (state, {payload}) => {
+    postRegisSuccess: (state, { payload }) => {
       state.loading = false;
       state.hasErrors = false;
       state.regisText = payload.status
@@ -53,10 +53,10 @@ const usersSlice = createSlice({
       const userInfo = {
         username: payload.username,
       }
-      console.log(JSON.stringify(userInfo))
+      // console.log(JSON.stringify(userInfo))
       localStorage.setItem('userInfo', JSON.stringify(userInfo));
       localStorage.setItem('isLogin', 'true');
-      localStorage.setItem('user_token', JSON.stringify(payload.user_token))
+      // localStorage.setItem('user_token', JSON.stringify(payload.user_token))
     },
     fetchLoginFailure: (state) => {
       state.loading = false;
@@ -67,7 +67,7 @@ const usersSlice = createSlice({
       state.hasErrors = true;
       state.loginText = 'Username or Password mismatch!!.'
     },
-    logout: (state) => {
+    loggingOut: (state) => {
       state.loading = false
       state.hasErrors = false
       state.isLoggedIn = false
@@ -88,7 +88,7 @@ export const {
   fetchLoginSuccess,
   fetchLoginFailure,
   userPassMismatch,
-  logout,
+  loggingOut,
 } = usersSlice.actions;
 export const usersSelector = (state) => state.users;
 export default usersSlice.reducer;
@@ -96,14 +96,13 @@ export default usersSlice.reducer;
 export function saveRegisterData(userData) {
   return async (dispatch) => {
     dispatch(postingData());
-
-    const postData = JSON.stringify(userData);
     try {
-      const response = await callAPI(`${config.apiUrl}posx/register`, postData);
+      // const response = await callAPI(`${config.apiUrl}posx/register`, postData);
+      const response = await Axios(`${config.apiUrl}posx/register`, userData);
       // if (response.rowCount !== undefined && response.rowCount === 1)
       console.log(response)
-      response?
-        dispatch(postRegisSuccess(response)):
+      response ?
+        dispatch(postRegisSuccess(response.data)) :
         dispatch(postRegisFailure())
     } catch (error) {
       console.log("postRegister Error ", error);
@@ -115,17 +114,23 @@ export function saveRegisterData(userData) {
 export function fetchLogin(userData) {
   return async (dispatch) => {
     dispatch(loggingIn());
-
-    userData.systemdate = new Date(Date.now()).toISOString();
-    const userinfo = JSON.stringify(userData);
+    const systemdate = new Date(Date.now()).toISOString();
+    const userinfo = { ...userData, systemdate: systemdate }
     try {
-      const response = await callAPI(`${config.apiUrl}posx/login`, userinfo)
-      response ? 
-      dispatch(fetchLoginSuccess(response)) :
-      dispatch(userPassMismatch());
+      const response = await Axios.post(`${config.apiUrl}coupons/login`, userinfo)
+      // console.log(response)
+      response ?
+        dispatch(fetchLoginSuccess(response.data.recordset[0])) :
+        dispatch(userPassMismatch());
     } catch (error) {
       console.log("fetchLogin Error ", error);
       dispatch(fetchLoginFailure());
     }
+  };
+}
+
+export function logout() {
+  return async (dispatch) => {
+    dispatch(loggingOut());
   };
 }

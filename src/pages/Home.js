@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Content } from "../components/layout/Content";
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchCols, fetchVouchers, vouchersSelector } from '../slices/vouchers'
+import { usersSelector } from '../slices/users'
 
 import 'devextreme/dist/css/dx.common.css';
 import 'devextreme/dist/css/dx.light.css';
@@ -9,6 +10,8 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import { TextField } from "@material-ui/core";
 import VoucherTable from "../components/VoucherTable";
+import LoadingGif from "../components/LoadingGif";
+import { Redirect } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,6 +26,7 @@ export default function Home() {
   const dispatch = useDispatch();
   const classes = useStyles();
   const { cols, loading, hasErrors, vouchers } = useSelector(vouchersSelector)
+  const { isLoggedIn } = useSelector(usersSelector)
   const [formVal, setFormVal] = useState({})
 
   useEffect(() => {
@@ -69,6 +73,7 @@ export default function Home() {
 
   return (
     <Content>
+      {!isLoggedIn && <Redirect to="/login" />}
       {cols ? (<div style={{ textAlign: 'center' }}>
         <form className={classes.root} noValidate autoComplete="off">
           <div>
@@ -89,14 +94,7 @@ export default function Home() {
       }
       {hasErrors && <h3>Something went wrong.!</h3>}
       {loading &&
-        <div>
-          <img style={{
-            maxWidth: 500, maxHeight: 500, display: 'block',
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            width: '50%'
-          }} src={process.env.PUBLIC_URL + 'images/loading.gif'} alt="loading" />
-        </div>
+        <LoadingGif />
       }
       {
         vouchers.recordset && !loading && !hasErrors &&

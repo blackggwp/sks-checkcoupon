@@ -3,7 +3,6 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { usersSelector } from "../slices/users";
 import { fetchLogin } from "../slices/users";
-import { Redirect } from "react-router-dom";
 
 import TextField from "@material-ui/core/TextField";
 import Card from "@material-ui/core/Card";
@@ -11,13 +10,27 @@ import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import Button from "@material-ui/core/Button";
 import CardHeader from "@material-ui/core/CardHeader";
+import { Redirect } from "react-router-dom";
+
+const LoginStyles = {
+  root: {
+    backgroundColor: '#cccccc',
+    position: 'relative',
+    top: 50,
+    paddingBottom: 100,
+    maxWidth: 500,
+    borderRadius: 10,
+    display: 'flex',
+    flexDirection: 'column',
+  },
+}
 
 export default function LoginPage(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const dispatch = useDispatch();
-  const { loginText } = useSelector(usersSelector);
+  const { loginText, isLoggedIn } = useSelector(usersSelector);
 
   useEffect(() => {
     if (username.trim() && password.trim()) {
@@ -39,15 +52,10 @@ export default function LoginPage(props) {
       (isButtonDisabled || handleLogin())
   }
 
-  return localStorage.getItem('isLogin') ? (
-    <Redirect
-      to={{
-        pathname: "/",
-        state: { from: props.location },
-      }}
-    />
-  ) : (
+  return (
     <>
+      {isLoggedIn && <Redirect to="/" />}
+      <div className="container" style={LoginStyles.root}>
         <form noValidate autoComplete="off">
           <Card>
             <CardHeader title="Login" />
@@ -100,6 +108,7 @@ export default function LoginPage(props) {
         >
           Back
         </Button>
-      </>
+      </div>
+    </>
   )
 }
