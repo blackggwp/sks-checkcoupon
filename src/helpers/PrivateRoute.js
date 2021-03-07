@@ -2,8 +2,7 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-  
-  const isLogin = localStorage.getItem('isLogin')
+  const isLogin = localStorage.getItem("isLogin");
 
   return (
     <Route
@@ -11,12 +10,12 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
       render={(props) =>
         isLogin ? (
           <Component {...props} />
-
         ) : (
           <Redirect
             to={{
-              pathname: "/login",
-              state: { from: props.location }
+              pathname: `${process.env.PUBLIC_URL}/login`,
+
+              state: { from: props.location },
             }}
           />
         )

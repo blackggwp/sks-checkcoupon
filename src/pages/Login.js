@@ -14,16 +14,16 @@ import { Redirect } from "react-router-dom";
 
 const LoginStyles = {
   root: {
-    backgroundColor: '#cccccc',
-    position: 'relative',
+    backgroundColor: "#cccccc",
+    position: "relative",
     top: 50,
     paddingBottom: 100,
     maxWidth: 500,
     borderRadius: 10,
-    display: 'flex',
-    flexDirection: 'column',
+    display: "flex",
+    flexDirection: "column",
   },
-}
+};
 
 export default function LoginPage(props) {
   const [username, setUsername] = useState("");
@@ -42,19 +42,18 @@ export default function LoginPage(props) {
 
   const handleLogin = async () => {
     if (username.length > 1 && password.length > 1) {
-      const postData = { username: username, password: password }
-      dispatch(fetchLogin(postData))
+      const postData = { username: username, password: password };
+      dispatch(fetchLogin(postData));
     }
-  }
+  };
 
   const handleKeyPress = (e) => {
-    (e.keyCode === 13 || e.which === 13) &&
-      (isButtonDisabled || handleLogin())
-  }
+    (e.keyCode === 13 || e.which === 13) && (isButtonDisabled || handleLogin());
+  };
 
   return (
     <>
-      {isLoggedIn && <Redirect to="/" />}
+      {isLoggedIn && <Redirect to={`${process.env.PUBLIC_URL}/`} />}
       <div className="container" style={LoginStyles.root}>
         <form noValidate autoComplete="off">
           <Card>
@@ -68,7 +67,7 @@ export default function LoginPage(props) {
                   label="username"
                   placeholder="username"
                   margin="normal"
-                  error={loginText !== ''}
+                  error={loginText !== ""}
                   onChange={(e) => setUsername(e.target.value)}
                   onKeyPress={(e) => handleKeyPress(e)}
                 />
@@ -79,7 +78,7 @@ export default function LoginPage(props) {
                   label="password"
                   placeholder="password"
                   margin="normal"
-                  error={loginText !== ''}
+                  error={loginText !== ""}
                   helperText={loginText}
                   onChange={(e) => setPassword(e.target.value)}
                   onKeyPress={(e) => handleKeyPress(e)}
@@ -110,5 +109,5 @@ export default function LoginPage(props) {
         </Button>
       </div>
     </>
-  )
+  );
 }
