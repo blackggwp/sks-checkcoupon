@@ -53,7 +53,7 @@ export default function LoginPage(props) {
 
   return (
     <>
-      {isLoggedIn && <Redirect to={`${process.env.PUBLIC_URL}/`} />}
+      {isLoggedIn && <Redirect to='/' />}
       <div className="container" style={LoginStyles.root}>
         <form noValidate autoComplete="off">
           <Card>

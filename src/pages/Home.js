@@ -69,7 +69,7 @@ export default function Home() {
 
   return (
     <Content>
-      {!isLoggedIn && <Redirect to={`${process.env.PUBLIC_URL}/login`} />}
+      {!isLoggedIn && <Redirect to='/login' />}
       {cols ? (
         <div style={{ textAlign: "center" }}>
           <form className={classes.root} noValidate autoComplete="off">
