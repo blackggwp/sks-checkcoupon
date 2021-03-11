@@ -13,7 +13,7 @@ const Login = lazy(() => import("./pages/Login"));
 
 const App = () => {
   return (
-    <Router basename="/ecoupon/portal">
+    <Router basename="/ecoupon">
       {/* <Router> */}
       <MyErrorBoundary>
         <Suspense fallback={<div>Loading...</div>}>

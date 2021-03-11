@@ -34,9 +34,6 @@ export default function Home() {
   }, [dispatch]);
 
   const renderSearchBox = () => {
-    // if (loading) return <p>Loading SearchBox...</p>
-    // if (hasErrors) return <p>Unable to display SearchBox.</p>
-
     return cols.map((col, idx) => (
       <TextField
         key={idx}
